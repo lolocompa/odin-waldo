@@ -1,10 +1,10 @@
 import React from "react";
-import { Header } from "./components/Header";
+import { Index } from "./components/Index";
 
 function App() {
   return (
     <div>
-      <Header></Header>
+      < Index/>
     </div>
   );
 }
