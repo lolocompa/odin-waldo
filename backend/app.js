@@ -4,10 +4,6 @@ var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 const session = require("express-session");
-const mongoose = require("mongoose");
-const passport = require("passport");
-const flash = require("express-flash");
-const initialize_passport = require("./config/passport");
 const cors = require('cors');
 
 
@@ -28,46 +24,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors({ origin: 'http://localhost:3001' }));
 
 
-
-async function main() {
-  try {
-    const db = await mongoose.connect("mongodb://0.0.0.0:27017/blog", {});
-
-    console.log("Connected to the database");
-
-    // Optional: Log additional connection information
-    db.connection.on("connected", () => {
-      console.log("Mongoose connected to MongoDB");
-    });
-
-    db.connection.on("error", (err) => {
-      console.error("Mongoose connection error:", err);
-    });
-
-    db.connection.on("disconnected", () => {
-      console.log("Mongoose disconnected from MongoDB");
-    });
-  } catch (err) {
-    console.error("Error connecting to the database", err);
-  }
-}
-
-main();
-
-
-
-initialize_passport(passport);
-app.use(flash())
-app.use(
-  session({
-    secret: "cats",
-    resave: false,
-    saveUninitialized: false,
-  })
-);
-app.use(passport.initialize());
-app.use(passport.session());
-app.use(express.urlencoded({ extended: false }));
 
 
 
